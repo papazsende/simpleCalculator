@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             "+", "-", "/", "*" -> onOperator(view)
+            "=" -> onEqual(view)
             else -> {
                 tvInput?.append((view as Button).text)
                 lastDecimal = false
@@ -65,5 +67,74 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onEqual(view: View) {
+        if (lastNumeric) {
+
+            var tvValue = tvInput?.text.toString()
+            var prefix = ""
+            try {
+                if (tvValue.startsWith("-")) {
+                    prefix = "-"
+                    tvValue = tvValue.substring(1)
+                }
+                if (tvValue.contains("-")) {
+                    var splitValue = tvValue.split("-")
+                    var firstValue = splitValue[0]
+                    var secondValue = splitValue[1]
+
+                    if (prefix.isNotEmpty()) {
+                        firstValue = prefix + firstValue
+                    }
+                    var result = firstValue.toDouble() - secondValue.toDouble()
+
+                    tvInput?.text = removeZeroAfterDot(result.toString())
+                } else if (tvValue.contains("+")) {
+                    var splitValue = tvValue.split("+")
+                    var firstValue = splitValue[0]
+                    var secondValue = splitValue[1]
+
+                    if (prefix.isNotEmpty()) {
+                        firstValue = prefix + firstValue
+                    }
+                    var result = firstValue.toDouble() + secondValue.toDouble()
+                    tvInput?.text = result.toString()
+                } else if (tvValue.contains("*")) {
+                    var splitValue = tvValue.split("*")
+                    var firstValue = splitValue[0]
+                    var secondValue = splitValue[1]
+
+                    if (prefix.isNotEmpty()) {
+                        firstValue = prefix + firstValue
+                    }
+                    var result = firstValue.toDouble() * secondValue.toDouble()
+                    tvInput?.text = removeZeroAfterDot(result.toString())
+                } else if (tvValue.contains("/")) {
+                    var splitValue = tvValue.split("/")
+                    var firstValue = splitValue[0]
+                    var secondValue = splitValue[1]
+
+                    if (prefix.isNotEmpty()) {
+                        firstValue = prefix + firstValue
+                    }
+                    var result = firstValue.toDouble() / secondValue.toDouble()
+                    tvInput?.text = removeZeroAfterDot(result.toString())
+
+                }
+
+            } catch (e: ArithmeticException) {
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+    private fun removeZeroAfterDot(result: String): String {
+        var value = result
+
+        if (value.contains(".0"))
+            value = result.substring(0, result.length - 2)
+        return value
+
+    }
 
 }
