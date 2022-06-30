@@ -12,7 +12,7 @@
     <string name="btnSeven">7</string>
     <string name="btnEight">8</string>
     <string name="btnNine">9</string>
-    <string name="btnMultiply">x</string>
+    <string name="btnMultiply">*</string>
     <string name="btnSubtract">-</string>
     <string name="btnSum">+</string>
     <string name="btnDivide">/</string>
