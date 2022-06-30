@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         firstValue = prefix + firstValue
                     }
                     var result = firstValue.toDouble() + secondValue.toDouble()
-                    tvInput?.text = result.toString()
+                    tvInput?.text = removeZeroAfterDot(result.toString())
                 } else if (tvValue.contains("*")) {
                     var splitValue = tvValue.split("*")
                     var firstValue = splitValue[0]
@@ -117,6 +117,17 @@ class MainActivity : AppCompatActivity() {
                         firstValue = prefix + firstValue
                     }
                     var result = firstValue.toDouble() / secondValue.toDouble()
+                    tvInput?.text = removeZeroAfterDot(result.toString())
+
+                }else if (tvValue.contains("%")) {
+                    var splitValue = tvValue.split("%")
+                    var firstValue = splitValue[0]
+                    var secondValue = splitValue[1]
+
+                    if (prefix.isNotEmpty()) {
+                        firstValue = prefix + firstValue
+                    }
+                    var result = (firstValue.toDouble() *  secondValue.toDouble()) / 100.0
                     tvInput?.text = removeZeroAfterDot(result.toString())
 
                 }
