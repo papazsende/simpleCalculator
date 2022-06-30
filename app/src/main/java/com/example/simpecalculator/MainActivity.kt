@@ -5,38 +5,33 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
 import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
-    var lastNumeric: Boolean = false
-    var lastDecimal: Boolean = false
+    private var lastNumeric: Boolean = false
+    private var lastDecimal: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tvInput = findViewById(R.id.tvInput)
     }
 
-    public fun append(view: View) {
+    fun append(view: View) {
 
         when ((view as Button).text) {
             "CLR" -> tvInput?.text = ""
             "." -> {
                 if (lastNumeric && !lastDecimal) {
-                    tvInput?.append((view as Button).text)
+                    tvInput?.append((view).text)
                     lastDecimal = true
                     lastNumeric = false
-                } else {
-
                 }
-
             }
             "+", "-", "/", "*" -> onOperator(view)
-            "=" -> onEqual(view)
+            "=" -> onEqual()
             else -> {
-                tvInput?.append((view as Button).text)
+                tvInput?.append((view).text)
                 lastDecimal = false
                 lastNumeric = true
             }
@@ -67,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onEqual(view: View) {
+    private fun onEqual() {
         if (lastNumeric) {
 
             var tvValue = tvInput?.text.toString()
@@ -78,56 +73,56 @@ class MainActivity : AppCompatActivity() {
                     tvValue = tvValue.substring(1)
                 }
                 if (tvValue.contains("-")) {
-                    var splitValue = tvValue.split("-")
+                    val splitValue = tvValue.split("-")
                     var firstValue = splitValue[0]
-                    var secondValue = splitValue[1]
+                    val secondValue = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         firstValue = prefix + firstValue
                     }
-                    var result = firstValue.toDouble() - secondValue.toDouble()
+                    val result = firstValue.toDouble() - secondValue.toDouble()
 
                     tvInput?.text = removeZeroAfterDot(result.toString())
                 } else if (tvValue.contains("+")) {
-                    var splitValue = tvValue.split("+")
+                    val splitValue = tvValue.split("+")
                     var firstValue = splitValue[0]
-                    var secondValue = splitValue[1]
+                    val secondValue = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         firstValue = prefix + firstValue
                     }
-                    var result = firstValue.toDouble() + secondValue.toDouble()
+                    val result = firstValue.toDouble() + secondValue.toDouble()
                     tvInput?.text = removeZeroAfterDot(result.toString())
                 } else if (tvValue.contains("*")) {
-                    var splitValue = tvValue.split("*")
+                    val splitValue = tvValue.split("*")
                     var firstValue = splitValue[0]
-                    var secondValue = splitValue[1]
+                    val secondValue = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         firstValue = prefix + firstValue
                     }
-                    var result = firstValue.toDouble() * secondValue.toDouble()
+                    val result = firstValue.toDouble() * secondValue.toDouble()
                     tvInput?.text = removeZeroAfterDot(result.toString())
                 } else if (tvValue.contains("/")) {
-                    var splitValue = tvValue.split("/")
+                    val splitValue = tvValue.split("/")
                     var firstValue = splitValue[0]
-                    var secondValue = splitValue[1]
+                    val secondValue = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         firstValue = prefix + firstValue
                     }
-                    var result = firstValue.toDouble() / secondValue.toDouble()
+                    val result = firstValue.toDouble() / secondValue.toDouble()
                     tvInput?.text = removeZeroAfterDot(result.toString())
 
-                }else if (tvValue.contains("%")) {
-                    var splitValue = tvValue.split("%")
+                } else if (tvValue.contains("%")) {
+                    val splitValue = tvValue.split("%")
                     var firstValue = splitValue[0]
-                    var secondValue = splitValue[1]
+                    val secondValue = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         firstValue = prefix + firstValue
                     }
-                    var result = (firstValue.toDouble() *  secondValue.toDouble()) / 100.0
+                    val result = (firstValue.toDouble() * secondValue.toDouble()) / 100.0
                     tvInput?.text = removeZeroAfterDot(result.toString())
 
                 }
